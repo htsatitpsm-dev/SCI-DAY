@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCI Day</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: "Kanit", "Poppins", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(180deg, #f5fbfd 0%, #eaf6fa 100%);
+        color: #18323d;
+    }
+
+    /* ===== Header ===== */
+    .band {
+        width: 100%;
+        min-height: 85px;
+        padding: 12px 5%;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        background: linear-gradient(90deg, #006a7c, #0096a6);
+        color: white;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .logo {
+        width: 65px !important;
+        height: 65px !important;
+        object-fit: contain;
+        background: white;
+        border-radius: 50%;
+        padding: 5px;
+    }
+
+    .school-name {
+        font-family: "Poppins", sans-serif;
+        font-size: 15px;
+        margin: 0;
+        font-weight: 500;
+        flex: 1;
+    }
+
+    .department-name {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 600;
+    }
+
+    .academic-year {
+        margin: 0;
+        padding: 7px 15px;
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 20px;
+        font-weight: 400;
+        white-space: nowrap;
+    }
+
+    /* ===== Promotion Images ===== */
+    .promote {
+        width: min(1200px, 92%);
+        margin: 30px auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 18px;
+    }
+
+    .bandsci {
+        width: 100% !important;
+        border-radius: 20px;
+        display: block;
+        box-shadow: 0 8px 25px rgba(0, 80, 100, 0.15);
+    }
+
+    .schedule,
+    .map,
+    .passport,
+    .passport2 {
+        object-fit: contain;
+        border-radius: 15px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+
+    .schedule:hover,
+    .map:hover,
+    .passport:hover,
+    .passport2:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    /* ===== Main Content ===== */
+    .content {
+        width: min(1200px, 92%);
+        margin: 20px auto 60px;
+        padding: 35px;
+        background: white;
+        border-radius: 25px;
+        box-shadow: 0 8px 30px rgba(0, 80, 100, 0.1);
+    }
+
+    .description {
+        margin: 0 0 10px;
+        text-align: center;
+        font-size: 26px !important;
+        font-weight: 600;
+        color: #006a7c;
+        letter-spacing: 0.5px;
+    }
+
+    .description::after {
+        content: "";
+        display: block;
+        width: 80px;
+        height: 5px;
+        margin: 12px auto 0;
+        border-radius: 20px;
+        background: linear-gradient(90deg, #00a6b8, #007789);
+    }
+    /* ===== Gallery ===== */
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        gap: 28px;
+        margin-top: 30px;
+    }
+
+    .gallery-item {
+        background: #ffffff;
+        border-radius: 22px;
+        overflow: hidden;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(0, 100, 120, 0.10);
+        border: 1px solid rgba(0, 119, 137, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .gallery-item:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 18px 35px rgba(0, 100, 120, 0.20);
+    }
+
+    .gallery-item img {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        display: block;
+        cursor: pointer;
+        transition: transform 0.4s ease;
+    }
+
+    .gallery-item:hover img {
+        transform: scale(1.06);
+    }
+
+    .gallery-item p {
+        margin: 0;
+        padding: 15px 10px 17px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        color: #006a7c;
+        background: #ffffff;
+        transition: all 0.3s ease;
+    }
+
+    .gallery-item:hover p {
+        color: #ffffff;
+        background: linear-gradient(135deg, #007789, #00a6b8);
+    }
+    /* ===== Modal ===== */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        inset: 0;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        background: rgba(0, 35, 45, 0.72);
+        backdrop-filter: blur(7px);
+    }
+
+    .modal-content {
+        position: relative;
+        width: min(600px, 95%);
+        max-height: 88vh;
+        overflow-y: auto;
+        padding: 25px;
+        text-align: center;
+        background: #ffffff;
+        border-radius: 28px;
+        animation: popup 0.35s ease;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    #detailImage {
+        width: 100%;
+        max-height: 330px;
+        object-fit: cover;
+        border-radius: 18px;
+        margin-bottom: 18px;
+    }
+
+    #detailTitle {
+        margin: 5px 10px 12px;
+        color: #006a7c;
+        font-size: 25px;
+        font-weight: 600;
+        line-height: 1.4;
+    }
+
+    #detailDescription {
+        margin: 0 10px 10px;
+        font-size: 17px;
+        line-height: 1.8;
+        color: #52656b;
+    }
+
+    .close {
+        position: absolute;
+        top: 12px;
+        right: 15px;
+        width: 38px;
+        height: 38px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #ffffff;
+        color: #006a7c;
+        border-radius: 50%;
+        font-size: 30px;
+        font-weight: 300;
+        cursor: pointer;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+        transition: 0.25s ease;
+    }
+
+    .close:hover {
+        background: #007789;
+        color: white;
+        transform: rotate(90deg);
+    }
+
+    @keyframes popup {
+        from {
+            opacity: 0;
+            transform: scale(0.9) translateY(25px);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    #detailImage {
+        width: 100%;
+        max-height: 350px;
+        object-fit: cover;
+        border-radius: 18px;
+        margin-bottom: 15px;
+    }
+
+    #detailTitle {
+        color: #007789;
+        margin: 10px 0;
+        font-size: 26px;
+    }
+
+    #detailDescription {
+        font-size: 17px;
+        line-height: 1.7;
+        color: #52656b;
+    }
+
+    .close {
+        position: absolute;
+        top: 12px;
+        right: 18px;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #f1f4f5;
+        color: #555;
+        border-radius: 50%;
+        font-size: 28px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .close:hover {
+        background: #007789;
+        color: white;
+        transform: rotate(90deg);
+    }
+
+    /* ===== Mobile ===== */
+    @media (max-width: 768px) {
+        .band {
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
+            gap: 8px;
+            padding: 15px;
+        }
+
+        .logo {
+            width: 55px !important;
+            height: 55px !important;
+        }
+
+        .school-name {
+            flex-basis: 70%;
+            font-size: 12px;
+        }
+
+        .department-name {
+            width: 100%;
+            font-size: 19px;
+        }
+
+        .academic-year {
+            font-size: 13px;
+        }
+
+        .content {
+            padding: 25px 18px;
+        }
+
+        .gallery {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .schedule {
+            width: 40% !important;
+        }
+
+        .map {
+            width: 65% !important;
+        }
+
+        .passport,
+        .passport2 {
+            width: 45% !important;
+        }
+    }
+
+    @media (max-width: 450px) {
+        .gallery {
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .gallery p {
+            font-size: 14px;
+        }
+    }
+
+    /* ===== Clickable Promotion Images ===== */
+
+    .promote img {
+        cursor: pointer;
+    }
+
+    /* ===== Full Image Modal ===== */
+
+    .image-modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        inset: 0;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(8px);
+    }
+
+    #fullImage {
+        max-width: 95%;
+        max-height: 90vh;
+        object-fit: contain;
+        border-radius: 15px;
+        animation: imageZoom 0.3s ease;
+        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .image-close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        width: 45px;
+        height: 45px;    display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background: white;
+        color: #006a7c;
+
+        border-radius: 50%;
+
+        font-size: 32px;
+        cursor: pointer;
+
+        transition: 0.3s;
+    }
+
+    .image-close:hover {
+        background: #007789;
+        color: white;
+
+        transform: rotate(90deg);
+    }
+
+    @keyframes imageZoom {
+        from {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+</style>
+<body>
+    <div class="band">
+        <img class="logo" src="SWU_Prasanmit_Demonstration_Sec_TH_Color.png" alt="logo" width="5%" height="5%">
+        <h4 class="school-name">Prasarnmit Demonstration School (Secondary)</h4>
+        <h3 class="department-name">กลุ่มสาขาวิชาวิทยาศาสตร์</h3>
+        <h4 class="academic-year">ปีการศึกษา 2569</h4>
+    </div>
+    
+    <div class="promote">
+        <img 
+            src="bandsci.png" 
+            alt="bandsci" 
+            width="100%" 
+            height="auto" 
+            class="bandsci"
+            onclick="showPromoImage(this.src)"
+        >
+        <img 
+            src="schedule.png" 
+            alt="schedule" 
+            width="15%" 
+            height="auto" 
+            class="schedule"
+            onclick="showPromoImage(this.src)"
+        >
+        <img 
+            src="map.png" 
+            alt="map" 
+            width="30%" 
+            height="auto" 
+            class="map"
+            onclick="showPromoImage(this.src)"
+        >
+        <img 
+            src="passport.png" 
+            alt="passport" 
+            width="25%" 
+            height="auto" 
+            class="passport"
+            onclick="showPromoImage(this.src)"
+        >
+        <img 
+            src="passport2.png" 
+            alt="passport2" 
+            width="25%" 
+            height="auto" 
+            class="passport2"
+            onclick="showPromoImage(this.src)"
+        >
+    </div>
+
+    <div class="content">
+        <p class="description" style="font-size: 24px;">รายละเอียดฐานกิจกรรม</p><br>
+
+    <div class="gallery">
+        <div class="gallery-item">
+          <img
+            src="SG.png"
+            alt="SG"
+            onclick="showDetail(
+                this.src,
+                'ROOM 4/7',
+                'ไขปริศนาคดีฆาตกรรมด้วย 3กิจกรรม',
+                '1. ตรวจลายนิ้วมือ',
+                '2. แบบทดสอบดิจิทัล',
+                '3. วิเคราะห์ DNA'
+            )"
+        ><p>SG</p>  
+        </div>
+        
+        <div class="gallery-item">
+           <img 
+            src="GH.png"
+            alt="GH"
+            onclick="showDetail(
+                this.src,
+                'เจ๊ลำยอง ดองต้านแก่แช่ต้านอักเสบ',
+                'ศาสตร์แห่งยาดองพิสูจน์สมุนไพรไทย : แกะสูตรยาดองเฟ้นหาแอนตี้ออกซิเดนท์'
+            )"
+        ><p>GH</p> 
+        </div>
+        
+        <div class="gallery-item">
+            <img 
+            src="GI.png"
+            alt="GI"
+            onclick="showDetail(
+                this.src,
+                'GI พา 67',
+                '1. เกมแข่งขันปลูกต้นไม้จำลองโดยใช้ Clicker และ Arduino',
+                '2.67 Speed Challenge ทำท่าเพื่อปลูกต้นไม้',
+                '3.กิจกรรม Hands-on แก้ไขโค้ดและให้ความรู้เกี่ยวกับกล้ามเนื้อแขน'
+            )"
+        ><p>GI</p>
+        </div>
+        
+        <div class="gallery-item">
+           <img 
+            src="HT.png"
+            alt="HT"
+            onclick="showDetail(
+                this.src,
+                'HT Tech Lab: ภารกิจแขนกลและต่อวงจรไฟฟ้า',
+                '1. Balloon Pop Challenge ทดสอบความแม่นยำในการบังคับแขนกลปาลูกโป่ง',
+                '2. Smart Surgical Arm สัมผัสและจำลองการสั่งงานแขนกลผ่าตัดทางการแพทย์',
+                '3. circuit lights up'
+            )"
+        ><p>HT</p> 
+        </div>
+        
+        <div class="gallery-item">
+            <img 
+                src="HD-CI.png"
+                alt="HD-CI"
+                onclick="showDetail(
+                    this.src,
+                    'Chem&Glow',
+                    'เกมปากระป๋องและตอบคำถามเกี่ยวกับสารสำคัญในเครื่องสำอางเพื่อรับรางวัล'
+                )"
+            ><p>HD-CI</p>
+        </div>
+
+        <div class="gallery-item">
+            <img 
+                src="HP.png"
+                alt="HP"
+                onclick="showDetail(
+                    this.src,
+                    'เภสัชจัดให้',
+                    'กิจกรรมการนับยาและการอ่านชื่อยา'
+                )"
+            ><p>HP</p>
+        </div>
+
+        <div class="gallery-item">
+            <img 
+                src="HS.png"
+                alt="HS"
+                onclick="showDetail(
+                    this.src,
+                    'Health Sci สารละลายล่องหน',
+                    'ไขปริศนากระดาษล่องหนและตอบคำถามวิทยาศาสตร์เพื่อรับรางวัล'
+                )"
+            ><p>HS</p>
+        </div>
+
+        <div class="gallery-item">
+            <img 
+                src="SA.png"
+                alt="SA"
+                onclick="showDetail(
+                    this.src,
+                    'EXERCISE WITH SA',
+                    'ฝึกกล้ามเนื้อส่วนต่าง ๆ ด้วยการออกกำลังกาย ฝึกทักษะความเร็วในการเคลื่อนที่ และพัฒนาการคิดและการตัดสินใจผ่านแอป HomeCourt'
+                )"
+            ><p>SA</p>
+        </div>
+
+        <div class="gallery-item">
+            <img 
+                src="HA.png"
+                alt="HA"
+                onclick="showDetail(
+                    this.src,
+                    'โรงหมอน้อยไทย-จีน',
+                    '1. กิจกรรมยาดมสมุนไพร Custom เปิดโอกาสให้ผู้เข้าร่วมออกแบบกลิ่นเฉพาะตัว',
+                    '2. ให้ความรู้เกี่ยวกับเครื่องดื่มสมุนไพรไทย-จีน พร้อมทดลองชิม'
+                )"
+            ><p>HA</p>
+        </div>
+
+        <div class="gallery-item">
+            <img 
+                src="DA.png"
+                alt="DA"
+                onclick="showDetail(
+                    this.src,
+                    'Dental Art ยูไนเต็ด',
+                    '1. ฐานลวดคดเคี้ยวเลี้ยวเข้า DA',
+                    '2. ฐานแฟ้มลับ CSI',
+                    '3. ฐานสามัคคีคือปัง'
+                )"
+            ><p>DA</p>
+        </div>
+
+        <div class="gallery-item">
+            <img 
+                src="SPB.png"
+                alt="SPB"
+                onclick="showDetail(
+                    this.src,
+                    'PSYCHO SCIFAIR',
+                    '1. Check-in อารมณ์',
+                    '2. แบบทดสอบบุคลิกภาพ',
+                    '3. กิจกรรมเกี่ยวกับบุคลิกภาพ'
+                )"
+            ><p>SPB</p>
+        </div>
+    </div>
+
+    <div id="detailModal" class="modal">
+
+        <div class="modal-content">
+            <span class="close" onclick="closeDetail()">&times;</span>
+            <img id="detailImage">
+            <h2 id="detailTitle"></h2>
+            <p id="detailDescription"></p>
+        </div>
+    </div>
+    
+    <div id="imageModal" class="image-modal">
+    <span class="image-close" onclick="closePromoImage()">&times;</span>
+    
+    <img id="fullImage">
+</div>
+
+</body>
+<script>
+
+    function showDetail(image, title, ...descriptions) {
+        document.getElementById("detailImage").src = image;
+        document.getElementById("detailTitle").innerText = title;
+        document.getElementById("detailDescription").innerHTML =
+            descriptions.map(text => `<div>${text}</div>`).join("");
+        document.getElementById("detailModal").style.display = "flex";
+    }
+
+
+    function closeDetail() {
+        document.getElementById("detailModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        let modal = document.getElementById("detailModal");
+        if (event.target === modal) {
+            closeDetail();
+        }
+    }
+
+    function showPromoImage(image) {
+        document.getElementById("fullImage").src = image;
+        document.getElementById("imageModal").style.display = "flex";
+    }
+
+    function closePromoImage() {
+        document.getElementById("imageModal").style.display = "none";
+    }
+
+</script>
+</html>
