@@ -1151,6 +1151,34 @@ body::after {
         font-size: 16px;
     }
 }
+#imageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    max-width: 90%;
+    max-height: 90vh;
+}
+
+.multi-image {
+    max-width: 45%;
+    max-height: 85vh;
+
+    object-fit: contain;
+    border-radius: 15px;
+}
+@media (max-width: 768px) {
+    #imageContainer {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+
+    .multi-image {
+        max-width: 90%;
+        max-height: none;
+    }
+}
 </style>
 <body>
     <div class="band">
@@ -1214,29 +1242,20 @@ body::after {
             class="passport2"
             >
         </a>
-        <a href="https://www.youtube.com/watch?v=xRU8b_RZwVA" target="_blank">
-            <img 
-            src="wizzle.jpg" 
-            alt="wizzle" 
-            width="25%" 
-            height="auto" 
-            class="passport2"
-            >
-        </a>
         <img 
-            src="dance.png" 
+            src="dance.jpg" 
             alt="dance" 
             width="20%" 
             height="auto" 
             class="passport"
-            onclick="showPromoImage('dance1.png')"
+            onclick="showPromoImage('dance1.jpg')"
         >
     </div>
 
     <div class="promote2">
         <p onclick="showPromoImage('schedule.png')">กําหนดการ</p>
         <p onclick="showPromoImage('map.png')">แผนที่</p>
-        <p onclick="showPromoImage('fall.png')">กิจกรรมพิเศษ</p>
+        <p onclick="showIM('wizzle.jpg', 'msband.jpg')">วงดนตรี</p>
     </div>
 
     <div class="content">
@@ -1468,6 +1487,9 @@ body::after {
             <p>20 : ร้านแอ้แอน</p>
             <p>21 : ร้านอาจารย์นกกระจาบ</p>
             <p>22 : ร้านแอ้แอน</p>
+            <p>23 : หนุ่มน้อยตกนํ้า
+                <img src="fall.png" alt="ร้านค้า" width="80%" height="auto" style="border-radius: 15px; margin-top: 10px;" onclick="showPromoImage('fall.png')">
+            </p>
         </div> 
  </div>
 
@@ -1483,8 +1505,9 @@ body::after {
     
     <div id="imageModal" class="image-modal">
     <span class="image-close" onclick="closePromoImage()">&times;</span>
-    
-    <img id="fullImage">
+
+    <div id="imageContainer"></div>
+</div>
 </div>
 
 
@@ -1523,6 +1546,17 @@ body::after {
 
     function closePromoImage() {
         document.getElementById("imageModal").style.display = "none";
+    }
+
+    function showIM(image1, image2) {
+        const container = document.getElementById("imageContainer");
+
+        container.innerHTML = `
+            <img src="${image1}" class="multi-image">
+            <img src="${image2}" class="multi-image">
+        `;
+
+        document.getElementById("imageModal").style.display = "flex";
     }
 
 </script>
